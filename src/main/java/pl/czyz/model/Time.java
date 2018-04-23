@@ -1,11 +1,17 @@
-package com.cleverbuilder.cameldemos.restdsl.model;
+package pl.czyz.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class Time {
 
+    @JsonProperty
     private String message;
+    @JsonProperty
     private LocalDateTime time;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

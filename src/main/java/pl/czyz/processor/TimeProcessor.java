@@ -1,8 +1,9 @@
-package com.cleverbuilder.cameldemos.restdsl.processor;
+package pl.czyz.processor;
 
-import com.cleverbuilder.cameldemos.restdsl.model.Time;
+import pl.czyz.model.Time;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+
 import java.time.LocalDateTime;
 
 public class TimeProcessor implements Processor {

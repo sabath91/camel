@@ -1,19 +1,17 @@
-package com.cleverbuilder.cameldemos.restdsl;
+package pl.czyz;
 
-import com.cleverbuilder.cameldemos.restdsl.processor.CreateTimeObjectProcessor;
-import com.cleverbuilder.cameldemos.restdsl.processor.HelloPocessor;
-import com.cleverbuilder.cameldemos.restdsl.processor.TimeProcessor;
+import pl.czyz.processor.CreateTimeObjectProcessor;
+import pl.czyz.processor.HelloPocessor;
+import pl.czyz.processor.TimeProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestDslRouteBuilder extends RouteBuilder {
+public class RestRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-
 
 
         /**
@@ -23,8 +21,8 @@ public class RestDslRouteBuilder extends RouteBuilder {
          */
         restConfiguration()
                 .component("restlet")
-                .host("localhost")
-                .port("8080")
+                .host("0.0.0.0")
+                .port("8085")
                 .bindingMode(RestBindingMode.json);
 
         /**
@@ -33,15 +31,14 @@ public class RestDslRouteBuilder extends RouteBuilder {
 
         rest("/hello?name={name}")
                 .get()
-                    .to("direct:getHello");
+                .to("direct:getHello");
 
-        from("direct:getHello")
+        from("direct:getHello").routeId("hello")
                 .process(new CreateTimeObjectProcessor())
-                    .multicast()
+                .multicast()
                     .parallelProcessing()
                         .process(new HelloPocessor())
                         .process(new TimeProcessor())
-                        .endRest();
-
+                .endRest();
     }
 }
